@@ -3,6 +3,10 @@
 
   <option timestep="0.0002" />
 
+  <extension>
+    <plugin plugin="MujocoRosUtils::ImagePublisher"/>
+  </extension>
+
   <default class="main">
     <joint pos="0 0 0" axis="0 0 1" damping="0.2" />
     <motor ctrllimited="false" forcelimited="true" />
@@ -58,6 +62,7 @@
 
   <worldbody>
     <light name="top" pos="0 0 2" mode="trackcom" />
+    <camera name="front_camera" mode="fixed" pos="0.5 0.0 1.5" euler="0.0 0.785398 1.5708"/>
 
     <body name="base_link" pos="0 0 0" quat="1 0 0 0">
       <geom mesh="base_link" />
@@ -229,7 +234,16 @@
     <force name="EEForceSensor_fsensor" site="ee_force" />
     <torque name="EEForceSensor_tsensor" site="ee_force" />
     <accelerometer name="Accelerometer_accelerometer" site="imu" />
-    <gyro name="Accelerometer_gyro" site="imu" /> 
+    <gyro name="Accelerometer_gyro" site="imu" />
+    <plugin name="image_publisher" plugin="MujocoRosUtils::ImagePublisher" objtype="camera" objname="front_camera">
+      <config key="frame_id" value="front_camera"/>
+      <config key="color_topic_name" value="/front_camera/color"/>
+      <config key="depth_topic_name" value="/front_camera/depth"/>
+      <config key="info_topic_name" value="/front_camera/camera_info"/>
+      <config key="height" value="240"/>
+      <config key="width" value="320"/>
+      <config key="publish_rate" value="30"/>
+    </plugin>
   </sensor>
 
 </mujoco>
